@@ -15,6 +15,7 @@ using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using WebApplication3.Controllers;
 using WebApplication3.Models;
+using WebApplication3.Connection;
 
 namespace WebApplication3
 {
@@ -34,8 +35,8 @@ namespace WebApplication3
             
             
             services.AddMvc();
-            services.AddDbContext<WebApplication3.Connection.Connection>(options =>
-                options.UseNpgsql("Host=localhost;Port=5432;Database=main;Username=postgres;Password=123"));
+            services.AddDbContext<ConnectionContext>(options =>
+                options.UseNpgsql("DefaultConnection"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
