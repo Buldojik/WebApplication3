@@ -56,7 +56,9 @@ namespace WebApplication3.Controllers
             await _dataBase.SaveChangesAsync();
             return CreatedAtAction(nameof(GetID), new { id = divisions.ID }, divisions);
         }
-
+        /// <summary>
+        /// Редактирует данные сущности
+        /// </summary>
         [HttpPut]
         public async Task<IActionResult> Update(Division divisions)
         {
