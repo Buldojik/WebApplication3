@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebApplication3.Connection;
 using WebApplication3.Models;
@@ -41,7 +42,8 @@ namespace WebApplication3.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            _dataBase.Remove(await _dataBase.Set<Division>().FirstOrDefaultAsync(p => p.ID == id));
+            _dataBase.Divisions.Remove(await _dataBase.Divisions.FindAsync(id));
+            await _dataBase.SaveChangesAsync();
             return Ok(new { Message = "Deleted" });
         }
         /// <summary>
@@ -53,6 +55,16 @@ namespace WebApplication3.Controllers
             _dataBase.Add(divisions);
             await _dataBase.SaveChangesAsync();
             return CreatedAtAction(nameof(GetID), new { id = divisions.ID }, divisions);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(Division divisions)
+        {
+            int id = divisions.ID;
+            _dataBase.Entry(divisions).State = EntityState.Modified;
+            await _dataBase.SaveChangesAsync();
+            return Ok(new { Message = "Update" });
+
         }
     }
 }
