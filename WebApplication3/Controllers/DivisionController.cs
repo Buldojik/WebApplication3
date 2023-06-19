@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WebApplication3.Connection;
 using WebApplication3.Models;
@@ -49,8 +50,25 @@ namespace WebApplication3.Controllers
         /// <summary>
         /// Заполняет сущность
         /// </summary>
+        /// <param name="divisions"></param>
+        /// <returns>A newly created Division</returns>
+        /// <remarks>
+        /// Запрос на создание сущности:
+        ///
+        ///     POST /Division
+        ///     {
+        ///        "ID": 1
+        ///        "Name": "Item #1",
+        ///        "Director": ID Worker
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">Возвращает созданый элемент</response>
+        /// <response code="400">Ошибки валидации</response> 
         [HttpPost]
-        public async Task<IActionResult> Create(Division divisions)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] Division divisions)
         {
             _dataBase.Add(divisions);
             await _dataBase.SaveChangesAsync();
@@ -62,7 +80,6 @@ namespace WebApplication3.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(Division divisions)
         {
-            int id = divisions.ID;
             _dataBase.Entry(divisions).State = EntityState.Modified;
             await _dataBase.SaveChangesAsync();
             return Ok(new { Message = "Update" });
