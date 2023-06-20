@@ -13,6 +13,5 @@ namespace WebApplication3.Models
         [Required]
         public string Name { get; set; }
         public int WorkerID { get; set; }
-        public Worker? Worker { get; set; }
     }
 }

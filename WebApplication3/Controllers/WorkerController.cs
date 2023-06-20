@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,11 +9,11 @@ using WebApplication3.Models;
 namespace WebApplication3.Controllers
 {
     [Route("/api/[controller]")]
-    public class DivisionController : ControllerBase
+    public class WorkerController : ControllerBase
     {
         private readonly ConnectionContext _dataBase;
 
-        public DivisionController(ConnectionContext dataBase)
+        public WorkerController(ConnectionContext dataBase)
         {
             _dataBase = dataBase;
         }
@@ -22,20 +21,20 @@ namespace WebApplication3.Controllers
         /// Получает данные сущности     
         /// </summary>
         [HttpGet]
-        public IEnumerable<Division> Get() => _dataBase.Set<Division>();
+        public IEnumerable<Worker> Get() => _dataBase.Set<Worker>();
         /// <summary>
         /// Получает данные сущности по ID     
         /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetID(int id)
         {
-            var division = await _dataBase.Set<Division>().FirstOrDefaultAsync(p => p.ID == id);
-            if (division == null)
+            var worker = await _dataBase.Set<Worker>().FirstOrDefaultAsync(p => p.ID == id);
+            if (worker == null)
             {
                 return NotFound();
             }
 
-            return Ok(division);
+            return Ok(worker);
         }
         /// <summary>
         /// Удаляет данные сущности по ID      
@@ -50,16 +49,18 @@ namespace WebApplication3.Controllers
         /// <summary>
         /// Заполняет сущность
         /// </summary>
-        /// <param name="divisions"></param>
-        /// <returns>A newly created Division</returns>
+        /// <param name="workers"></param>
+        /// <returns>A newly created Worker</returns>
         /// <remarks>
         /// Запрос на создание сущности:
         ///
-        ///     POST /Division
+        ///     POST /Worker
         ///     {
         ///        "ID": 1
-        ///        "Name": "Item #1",
-        ///        "Director": ID Worker
+        ///        "Number": "12289"
+        ///        "Name": "Петров Петр Петрович",
+        ///        "Cod1C": "hfjhfkdshfkjsdh"
+        ///        "Post": "dfgdfgdfgdf"
         ///     }
         ///
         /// </remarks>
@@ -68,19 +69,19 @@ namespace WebApplication3.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] Division divisions)
+        public async Task<IActionResult> Create([FromBody] Worker workers)
         {
-            _dataBase.Add(divisions);
+            _dataBase.Add(workers);
             await _dataBase.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetID), new { id = divisions.ID }, divisions);
+            return CreatedAtAction(nameof(GetID), new { id = workers.ID }, workers);
         }
         /// <summary>
         /// Редактирует данные сущности
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> Update(Division divisions)
+        public async Task<IActionResult> Update(Worker workers)
         {
-            _dataBase.Entry(divisions).State = EntityState.Modified;
+            _dataBase.Entry(workers).State = EntityState.Modified;
             await _dataBase.SaveChangesAsync();
             return Ok(new { Message = "Update" });
 

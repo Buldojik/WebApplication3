@@ -6,7 +6,8 @@ namespace WebApplication3.Connection
 {
     public class ConnectionContext:DbContext
     {
-        public DbSet<Division> Divisions { get; set; }
+        public DbSet<Division> Division { get; set; }
+        public DbSet<Worker> Worker { get; set; }
 
         public ConnectionContext(DbContextOptions<ConnectionContext> options) : base(options)
         {
