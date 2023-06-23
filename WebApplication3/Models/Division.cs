@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace WebApplication3.Models
 {
+    /// <summary>
+    /// Подразделение
+    /// </summary>
     public class Division
     {
+        /// <summary>
+        /// И
+        /// </summary>
         public int ID { get; set; }
         [Required]
         public string Name { get; set; }
         public int WorkerID { get; set; }
+        public Worker Worker {get; set; }
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApplication3.Connection;
+using WebApplication3.Interfaces;
 using WebApplication3.Models;
 
 namespace WebApplication3.Controllers
@@ -13,44 +15,18 @@ namespace WebApplication3.Controllers
     public class DivisionController : ControllerBase
     {
         private readonly ConnectionContext _dataBase;
+        private readonly IDivisionHandler _divisioHandler;
 
-        public DivisionController(ConnectionContext dataBase)
+        public DivisionController(ConnectionContext dataBase , IDivisionHandler divisionRepository)
         {
             _dataBase = dataBase;
+            _divisioHandler = divisionRepository;
         }
-        /// <summary>
-        /// Получает данные сущности     
-        /// </summary>
-        [HttpGet]
-        public IEnumerable<Division> Get() => _dataBase.Set<Division>();
-        /// <summary>
-        /// Получает данные сущности по ID     
-        /// </summary>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetID(int id)
-        {
-            var division = await _dataBase.Set<Division>().FirstOrDefaultAsync(p => p.ID == id);
-            if (division == null)
-            {
-                return NotFound();
-            }
 
-            return Ok(division);
-        }
-        /// <summary>
-        /// Удаляет данные сущности по ID      
-        /// </summary>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            _dataBase.Worker.Remove(await _dataBase.Worker.FindAsync(id));
-            await _dataBase.SaveChangesAsync();
-            return Ok(new { Message = "Deleted" });
-        }
         /// <summary>
         /// Заполняет сущность
         /// </summary>
-        /// <param name="divisions"></param>
+        /// <param name="reqest"></param>
         /// <returns>A newly created Division</returns>
         /// <remarks>
         /// Запрос на создание сущности:
@@ -66,23 +42,59 @@ namespace WebApplication3.Controllers
         /// <response code="201">Возвращает созданый элемент</response>
         /// <response code="400">Ошибки валидации</response> 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(DivisionResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Create([FromBody] CreateDivisionReqest reqest)
+        {
+            return Ok(await _divisioHandler.Create(reqest));
+        }
+        
+        /// <summary>
+        /// Получает данные сущности по ID     
+        /// </summary>
+        /// <returns>A newly GetID Division</returns>
+        /// <response code="201">Возвращает запрошенный элемент</response>
+        /// <response code="400">Ошибка валидации</response> 
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] Division divisions)
+        public async Task<IActionResult> GetID(int id)
         {
-            _dataBase.Add(divisions);
-            await _dataBase.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetID), new { id = divisions.ID }, divisions);
+            var division = await _divisioHandler.GetByID(id);
+            if (division == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(division);
+        }
+        /// <summary>
+        /// Удаляет данные сущности по ID      
+        /// </summary>
+        /// <returns>A newly delete Division</returns>
+        /// <response code="201">Возвращает сообщение об удалении</response>
+        /// <response code="400">Ошибка валидации</response> 
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            //_dataBase.Division.Remove(await _dataBase.Division.FindAsync(id));
+            //await _dataBase.SaveChangesAsync();
+            //return Ok(new { Message = "Deleted" });
+            return Ok(await _divisioHandler.Delete(id));
         }
         /// <summary>
         /// Редактирует данные сущности
         /// </summary>
+        /// <response code = "201" > Возвращает обновленный элемент</response>
+        /// <response code = "400" > Ошибки валидации</response>
         [HttpPut]
-        public async Task<IActionResult> Update(Division divisions)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update([FromBody] DivisionResponse reqest)
         {
-            _dataBase.Entry(divisions).State = EntityState.Modified;
-            await _dataBase.SaveChangesAsync();
-            return Ok(new { Message = "Update" });
+            return Ok(await _divisioHandler.Update(reqest));
 
         }
     }

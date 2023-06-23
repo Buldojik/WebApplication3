@@ -9,5 +9,7 @@ namespace WebApplication3.Models
         public string Number { get; set; }
         public string Cod1C { get; set; }
         public string Post { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+        public Division? Division { get; set; }
     }
 }

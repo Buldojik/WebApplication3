@@ -13,5 +13,13 @@ namespace WebApplication3.Connection
         {
             Database.EnsureCreated();
         }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Division>()
+        //        .HasOne(e => e.Worker)
+        //        .WithOne(e => e.Division)
+        //        .HasForeignKey<Division>(e => e.WorkerID)
+        //        .IsRequired();
+        //}
     }
 }

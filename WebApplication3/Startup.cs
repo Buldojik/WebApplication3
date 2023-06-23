@@ -11,6 +11,9 @@ using System.Reflection;
 using System;
 using WebApplication3.Connection;
 using WebApplication3.Models;
+using WebApplication3.Interfaces;
+using WebApplication3.Repository;
+using WebApplication3.Mapping;
 
 namespace WebApplication3
 {
@@ -28,6 +31,8 @@ namespace WebApplication3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddAutoMapper(typeof(DivisionMappingProfile));
+            services.AddScoped<IDivisionHandler, DivisionHandler>();
             services.AddDbContext<ConnectionContext>(options => { 
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));});
             services.AddControllers();
@@ -37,7 +42,6 @@ namespace WebApplication3
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
