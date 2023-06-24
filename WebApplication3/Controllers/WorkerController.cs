@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApplication3.Connection;
+using WebApplication3.Interfaces;
 using WebApplication3.Models;
+using WebApplication3.Repository;
 
 namespace WebApplication3.Controllers
 {
@@ -12,10 +14,12 @@ namespace WebApplication3.Controllers
     public class WorkerController : ControllerBase
     {
         private readonly ConnectionContext _dataBase;
+        private readonly IWorkerHandler _workerHandler;
 
-        public WorkerController(ConnectionContext dataBase)
+        public WorkerController(ConnectionContext dataBase, IWorkerHandler workerHandler)
         {
             _dataBase = dataBase;
+            _workerHandler = workerHandler;
         }
         /// <summary>
         /// Получает данные сущности     
@@ -28,7 +32,7 @@ namespace WebApplication3.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetID(int id)
         {
-            var worker = await _dataBase.Set<Worker>().FirstOrDefaultAsync(p => p.ID == id);
+            var worker = await _workerHandler.GetByID(id);
             if (worker == null)
             {
                 return NotFound();
@@ -42,24 +46,19 @@ namespace WebApplication3.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            _dataBase.Worker.Remove(await _dataBase.Worker.FindAsync(id));
-            await _dataBase.SaveChangesAsync();
-            return Ok(new { Message = "Deleted" });
+            return Ok(await _workerHandler.Delete(id));
         }
         /// <summary>
         /// Заполняет сущность
         /// </summary>
-        /// <param name="workers"></param>
+        /// <param name="reqest"></param>
         /// <returns>A newly created Worker</returns>
         /// <remarks>
         /// Запрос на создание сущности:
         ///
         ///     POST /Worker
         ///     {
-        ///        "ID": 1
-        ///        "Number": "12289"
         ///        "Name": "Петров Петр Петрович",
-        ///        "Cod1C": "hfjhfkdshfkjsdh"
         ///        "Post": "dfgdfgdfgdf"
         ///     }
         ///
@@ -67,23 +66,19 @@ namespace WebApplication3.Controllers
         /// <response code="201">Возвращает созданый элемент</response>
         /// <response code="400">Ошибки валидации</response> 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(WorkerResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] Worker workers)
+        public async Task<IActionResult> Create([FromBody] CreateWorkerReqest reqest)
         {
-            _dataBase.Add(workers);
-            await _dataBase.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetID), new { id = workers.ID }, workers);
+            return Ok(await _workerHandler.Create(reqest));
         }
         /// <summary>
         /// Редактирует данные сущности
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> Update(Worker workers)
+        public async Task<IActionResult> Update(int id, UpdateWorkerReqest request)
         {
-            _dataBase.Entry(workers).State = EntityState.Modified;
-            await _dataBase.SaveChangesAsync();
-            return Ok(new { Message = "Update" });
+            return Ok(await _workerHandler.Update(id, request));
 
         }
     }

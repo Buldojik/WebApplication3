@@ -41,25 +41,24 @@ namespace WebApplication3.Repository
             newDivision.ID = id;
             _context.Division.Remove(newDivision);
             await _context.SaveChangesAsync();
-            var result = new DivisionResponse { id = newDivision.ID,};
+            var result = new DivisionResponse { id = newDivision.ID, Name = newDivision.Name, WorkerID = newDivision.WorkerID };
             return result;
         }
 
-        public async Task<CreateDivisionReqest> GetByID(int id)
+        public async Task<DivisionResponse> GetByID(int id)
         {
-            CreateDivisionReqest division;
-            var result = await _context.Division.SingleOrDefaultAsync(p => p.ID == id);
-            division = _mapper.Map<Division, CreateDivisionReqest>(result);
-            return division;
+            var division = await _context.Division.FirstOrDefaultAsync(p => p.ID == id);
+            var result = _mapper.Map<Division, DivisionResponse>(division);
+            return result;
         }
 
-        public async Task<Division> Update(DivisionResponse request)
+        public async Task<DivisionResponse> Update(int id, UpdateDivisionReqest request)
         {
-            //var result = await _context.Division.SingleOrDefaultAsync(p => p.ID == id);
-            var division = _mapper.Map<DivisionResponse, Division>(request);
-            _context.Entry(division).State = EntityState.Modified;
+            var division = await _context.Division.FirstOrDefaultAsync(p => p.ID == id);
+            _mapper.Map(request,division);
             await _context.SaveChangesAsync();
-            return division;
+            var result = _mapper.Map<Division, DivisionResponse>(division);
+            return result;
         }
     }
 }

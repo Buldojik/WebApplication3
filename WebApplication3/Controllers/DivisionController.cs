@@ -92,9 +92,9 @@ namespace WebApplication3.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([FromBody] DivisionResponse reqest)
+        public async Task<IActionResult> Update(int id,UpdateDivisionReqest reqest)
         {
-            return Ok(await _divisioHandler.Update(reqest));
+            return Ok(await _divisioHandler.Update(id,reqest));
 
         }
     }

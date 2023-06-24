@@ -9,8 +9,9 @@ namespace WebApplication3.Mapping
     {
         public DivisionMappingProfile()
         {
-            CreateMap<Division, CreateDivisionReqest>();
-            CreateMap<DivisionResponse, Division>();
+            CreateMap<CreateDivisionReqest,Division >();
+            CreateMap<Division, DivisionResponse > ();
+            CreateMap<UpdateDivisionReqest, Division> ();
         }
     }
 }
