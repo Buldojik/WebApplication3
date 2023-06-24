@@ -2,6 +2,9 @@
 
 namespace WebApplication3.Models
 {
+    /// <summary>
+    /// Сотрудник
+    /// </summary>
     public class Worker
     {
         public int ID { get; set; }

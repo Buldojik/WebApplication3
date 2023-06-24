@@ -31,9 +31,10 @@ namespace WebApplication3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddAutoMapper(typeof (DivisionMappingProfile),typeof(WorkerMapingProfile));
+            services.AddAutoMapper(typeof (DivisionMappingProfile),typeof(WorkerMapingProfile), typeof(QuestMappingProfile));
             services.AddScoped<IDivisionHandler, DivisionHandler>();
             services.AddScoped<IWorkerHandler, WorkerHandler>();
+            services.AddScoped<IQuestHandler, QuestHandler>();
             services.AddDbContext<ConnectionContext>(options => { 
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));});
             services.AddControllers();
