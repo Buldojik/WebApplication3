@@ -1,13 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApplication3.Connection;
 using WebApplication3.Interfaces;
-using WebApplication3.Models;
 
 namespace WebApplication3.Controllers
 {
@@ -17,12 +12,12 @@ namespace WebApplication3.Controllers
         private readonly ConnectionContext _dataBase;
         private readonly IDivisionHandler _divisioHandler;
 
-        public DivisionController(ConnectionContext dataBase , IDivisionHandler divisionRepository)
+        public DivisionController(ConnectionContext dataBase, IDivisionHandler divisionRepository)
         {
             _dataBase = dataBase;
             _divisioHandler = divisionRepository;
         }
-
+        
         /// <summary>
         /// Заполняет сущность
         /// </summary>

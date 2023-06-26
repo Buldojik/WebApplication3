@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApplication3.Models;
 
 namespace WebApplication3.Interfaces
 {
@@ -15,6 +14,9 @@ namespace WebApplication3.Interfaces
         Task<QuestResponse> Create(CreateQuestReqest request);
         Task<QuestResponse> Update(int id, UpdateQuestReqest request);
         Task<QuestResponse> Delete(int id);
+        /// <summary>
+        /// Запрос на создание сущности Quest
+        /// </summary>
         public class CreateQuestReqest
         {
             public string Name { get; set; }
@@ -23,6 +25,9 @@ namespace WebApplication3.Interfaces
             public List<int> WorkersID { get; set; }
 
         }
+        /// <summary>
+        /// Ответ сущности Quest
+        /// </summary>
         public class QuestResponse
         {
             public int id { get; set; }
@@ -31,6 +36,9 @@ namespace WebApplication3.Interfaces
             public int ProjectID { get; set; }
             public List<int> WorkersID { get; set; }
         }
+        /// <summary>
+        /// Запрос на обновление сущности Quest
+        /// </summary>
         public class UpdateQuestReqest
         {
             public string Name { get; set; }

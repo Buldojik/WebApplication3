@@ -41,7 +41,7 @@ namespace WebApplication3.Controllers
             return Ok(await _projectHandler.Delete(id));
         }
         /// <summary>
-        /// Заполняет сущность
+        /// Создает сущность
         /// </summary>
         /// <param name="reqest"></param>
         /// <returns>A newly created Project</returns>

@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WebApplication3.Connection;
 using WebApplication3.Interfaces;
 using WebApplication3.Models;
-using Task = System.Threading.Tasks.Task;
 
 namespace WebApplication3.Repository
 {
@@ -24,6 +19,7 @@ namespace WebApplication3.Repository
             _context = context;
             _mapper = mapper;
         }
+        
         public async Task<DivisionResponse> Create(CreateDivisionReqest request)
         {
             var newDivision = new Division();

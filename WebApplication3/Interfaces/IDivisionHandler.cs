@@ -20,18 +20,27 @@ namespace WebApplication3.Interfaces
         Task<DivisionResponse> Delete(int i);
 
     }
+    /// <summary>
+    /// Запрос на создание сущности Division
+    /// </summary>
     public class CreateDivisionReqest
     {
         public string Name { get; set; }
         public int WorkerID { get; set; }
         
     }
+    /// <summary>
+    /// Ответ сущности Division
+    /// </summary>
     public class DivisionResponse
     {
         public int id { get; set; }
         public string Name { get; set; }
         public int WorkerID { get; set; }
     }
+    /// <summary>
+    /// Запрос на обновление сущности Division
+    /// </summary>
     public class UpdateDivisionReqest
     {
         public string Name { get; set; }

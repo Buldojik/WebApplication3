@@ -4,16 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System;
 using System.IO;
 using System.Reflection;
-using System;
 using WebApplication3.Connection;
-using WebApplication3.Models;
 using WebApplication3.Interfaces;
-using WebApplication3.Repository;
 using WebApplication3.Mapping;
+using WebApplication3.Repository;
 
 namespace WebApplication3
 {
@@ -26,7 +24,6 @@ namespace WebApplication3
 
         public IConfiguration Configuration { get; }
 
-        public DbSet<Division> Divisions { get; set; }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {

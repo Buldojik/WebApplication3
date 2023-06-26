@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApplication3.Connection;
 using WebApplication3.Interfaces;
 using WebApplication3.Models;
-using WebApplication3.Repository;
 
 namespace WebApplication3.Controllers
 {
@@ -21,6 +19,7 @@ namespace WebApplication3.Controllers
             _dataBase = dataBase;
             _workerHandler = workerHandler;
         }
+        
         /// <summary>
         /// Получает данные сущности     
         /// </summary>

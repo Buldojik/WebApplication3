@@ -14,17 +14,26 @@ namespace WebApplication3.Interfaces
         Task<WorkerResponse> Update(int id, UpdateWorkerReqest request);
         Task<WorkerResponse> Delete(int id);
     }
+    /// <summary>
+    /// Запрос на создание сущности Worker
+    /// </summary>
     public class CreateWorkerReqest
     {
         public string Name { get; set; }
         public string Post { get; set; }
     }
+    /// <summary>
+    /// Ответ сущности Worker
+    /// </summary>
     public class WorkerResponse
     {
         public int id { get; set; }
         public string Name { get; set; }
         public string Post { get; set; }
     }
+    /// <summary>
+    /// Запрос на обновление сущности Worker
+    /// </summary>
     public class UpdateWorkerReqest
     {
         public string Name { get; set; }

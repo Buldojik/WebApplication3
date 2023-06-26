@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using WebApplication3.Connection;
 using WebApplication3.Interfaces;
 using WebApplication3.Models;
-using WebApplication3.Repository;
 using static WebApplication3.Interfaces.IQuestHandler;
 
 namespace WebApplication3.Controllers
@@ -49,7 +48,7 @@ namespace WebApplication3.Controllers
             return Ok(await _questHandler.Delete(id));
         }
         /// <summary>
-        /// Заполняет сущность
+        /// Создает сущность
         /// </summary>
         /// <param name="reqest"></param>
         /// <returns>A newly created Quest</returns>
