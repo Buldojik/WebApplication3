@@ -29,7 +29,7 @@ namespace WebApplication3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddAutoMapper(typeof (DivisionMappingProfile),typeof(WorkerMapingProfile), typeof(QuestMappingProfile), typeof(ProjectMappingProfile), typeof(LaborCostsMappingProfile), typeof(DataMapperProfile));
+            services.AddAutoMapper(typeof (DivisionMappingProfile),typeof(WorkerMapingProfile), typeof(QuestMappingProfile), typeof(ProjectMappingProfile), typeof(LaborCostsMappingProfile));
             services.AddScoped<IDivisionHandler, DivisionHandler>();
             services.AddScoped<IWorkerHandler, WorkerHandler>();
             services.AddScoped<IQuestHandler, QuestHandler>();

@@ -13,7 +13,6 @@ namespace WebApplication3.DataBase.Connection
 
         public ConnectionContext(DbContextOptions<ConnectionContext> options) : base(options)
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
     }
