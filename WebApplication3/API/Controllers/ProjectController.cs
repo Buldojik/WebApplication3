@@ -1,37 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApplication3.Connection;
+using WebApplication3.DataBase.Connection;
 using WebApplication3.Interfaces;
-using WebApplication3.Models;
+using WebApplication3.Repository;
 
 namespace WebApplication3.Controllers
 {
     [Route("/api/[controller]")]
-    public class WorkerController : ControllerBase
+    public class ProjectController : ControllerBase
     {
         private readonly ConnectionContext _dataBase;
-        private readonly IWorkerHandler _workerHandler;
+        private readonly IProjectHandler _projectHandler;
 
-        public WorkerController(ConnectionContext dataBase, IWorkerHandler workerHandler)
+        public ProjectController(ConnectionContext dataBase, IProjectHandler projectHandler)
         {
             _dataBase = dataBase;
-            _workerHandler = workerHandler;
+            _projectHandler = projectHandler;
         }
-        
-        /// <summary>
-        /// Получает данные сущности     
-        /// </summary>
-        [HttpGet]
-        public IEnumerable<Worker> Get() => _dataBase.Set<Worker>();
         /// <summary>
         /// Получает данные сущности по ID     
         /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetID(int id)
         {
-            var worker = await _workerHandler.GetByID(id);
+            var worker = await _projectHandler.GetByID(id);
             if (worker == null)
             {
                 return NotFound();
@@ -45,39 +38,39 @@ namespace WebApplication3.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _workerHandler.Delete(id));
+            return Ok(await _projectHandler.Delete(id));
         }
         /// <summary>
-        /// Заполняет сущность
+        /// Создает сущность
         /// </summary>
         /// <param name="reqest"></param>
-        /// <returns>A newly created Worker</returns>
+        /// <returns>A newly created Project</returns>
         /// <remarks>
         /// Запрос на создание сущности:
         ///
-        ///     POST /Worker
+        ///     POST /Project
         ///     {
         ///        "Name": "Петров Петр Петрович",
-        ///        "Post": "dfgdfgdfgdf"
+        ///        "WorkerID": 1
         ///     }
         ///
         /// </remarks>
         /// <response code="201">Возвращает созданый элемент</response>
         /// <response code="400">Ошибки валидации</response> 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(WorkerResponse))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ProjectResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] CreateWorkerReqest reqest)
+        public async Task<IActionResult> Create([FromBody] CreateProjectReqest reqest)
         {
-            return Ok(await _workerHandler.Create(reqest));
+            return Ok(await _projectHandler.Create(reqest));
         }
         /// <summary>
         /// Редактирует данные сущности
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> Update(int id, UpdateWorkerReqest request)
+        public async Task<IActionResult> Update(int id, UpdateProjectReqest request)
         {
-            return Ok(await _workerHandler.Update(id, request));
+            return Ok(await _projectHandler.Update(id, request));
 
         }
     }

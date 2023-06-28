@@ -1,29 +1,37 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApplication3.Connection;
+using WebApplication3.DataBase.Connection;
 using WebApplication3.Interfaces;
+using WebApplication3.Models;
 
 namespace WebApplication3.Controllers
 {
     [Route("/api/[controller]")]
-    public class LaborCostsController : ControllerBase
+    public class WorkerController : ControllerBase
     {
         private readonly ConnectionContext _dataBase;
-        private readonly ILaborCostsHandler _laborCostsHandler;
+        private readonly IWorkerHandler _workerHandler;
 
-        public LaborCostsController(ConnectionContext dataBase, ILaborCostsHandler laborCostsHandler)
+        public WorkerController(ConnectionContext dataBase, IWorkerHandler workerHandler)
         {
             _dataBase = dataBase;
-            _laborCostsHandler = laborCostsHandler;
+            _workerHandler = workerHandler;
         }
+        
+        /// <summary>
+        /// Получает данные сущности     
+        /// </summary>
+        [HttpGet]
+        public IEnumerable<Worker> Get() => _dataBase.Set<Worker>();
         /// <summary>
         /// Получает данные сущности по ID     
         /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetID(int id)
         {
-            var worker = await _laborCostsHandler.GetByID(id);
+            var worker = await _workerHandler.GetByID(id);
             if (worker == null)
             {
                 return NotFound();
@@ -37,42 +45,39 @@ namespace WebApplication3.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await _laborCostsHandler.Delete(id));
+            return Ok(await _workerHandler.Delete(id));
         }
         /// <summary>
-        /// Заполняет сущность
+        /// Создает сущность
         /// </summary>
         /// <param name="reqest"></param>
-        /// <returns>A newly created LaborCosts</returns>
+        /// <returns>A newly created Worker</returns>
         /// <remarks>
         /// Запрос на создание сущности:
         ///
-        ///     POST /LaborCosts
+        ///     POST /Worker
         ///     {
         ///        "Name": "Петров Петр Петрович",
-        ///        "QuestID" : 1,
-        ///        "WorkerID": 1,
-        ///        "Date": 12.01.2023,
-        ///        "Hour": 8.30
+        ///        "Post": "dfgdfgdfgdf"
         ///     }
         ///
         /// </remarks>
         /// <response code="201">Возвращает созданый элемент</response>
         /// <response code="400">Ошибки валидации</response> 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(LaborCostsResponse))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(WorkerResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] CreateLaborCostsReqest reqest)
+        public async Task<IActionResult> Create([FromBody] CreateWorkerReqest reqest)
         {
-            return Ok(await _laborCostsHandler.Create(reqest));
+            return Ok(await _workerHandler.Create(reqest));
         }
         /// <summary>
         /// Редактирует данные сущности
         /// </summary>
         [HttpPut]
-        public async Task<IActionResult> Update(int id, UpdateLaborCostsReqest request)
+        public async Task<IActionResult> Update(int id, UpdateWorkerReqest request)
         {
-            return Ok(await _laborCostsHandler.Update(id, request));
+            return Ok(await _workerHandler.Update(id, request));
 
         }
     }

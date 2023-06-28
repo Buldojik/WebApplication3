@@ -6,9 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Data;
 using System.IO;
 using System.Reflection;
-using WebApplication3.Connection;
+using WebApplication3.Data;
+using WebApplication3.DataBase.Connection;
 using WebApplication3.Interfaces;
 using WebApplication3.Mapping;
 using WebApplication3.Repository;
@@ -28,12 +30,13 @@ namespace WebApplication3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddAutoMapper(typeof (DivisionMappingProfile),typeof(WorkerMapingProfile), typeof(QuestMappingProfile), typeof(ProjectMappingProfile), typeof(LaborCostsMappingProfile));
+            services.AddAutoMapper(typeof (DivisionMappingProfile),typeof(WorkerMapingProfile), typeof(QuestMappingProfile), typeof(ProjectMappingProfile), typeof(LaborCostsMappingProfile), typeof(DataMapperProfile));
             services.AddScoped<IDivisionHandler, DivisionHandler>();
             services.AddScoped<IWorkerHandler, WorkerHandler>();
             services.AddScoped<IQuestHandler, QuestHandler>();
             services.AddScoped<IProjectHandler, ProjectHandler>();
             services.AddScoped<ILaborCostsHandler, LaborCostsHandler>();
+            services.AddScoped<IDataHandler, DataHandler>();
             services.AddDbContext<ConnectionContext>(options => { 
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));});
             services.AddControllers();

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using WebApplication3.Connection;
-using WebApplication3.Interfaces;
-using WebApplication3.Models;
+using WebApplication3.API.Interfaces;
+using WebApplication3.DataBase.Connection;
+using WebApplication3.DataBase.Models;
 
 namespace WebApplication3.Repository
 {

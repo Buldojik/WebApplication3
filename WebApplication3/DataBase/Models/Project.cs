@@ -8,7 +8,6 @@ namespace WebApplication3.Models
     public class Project
     {
         public int ID { get; set; }
-        [Required]
         public string Name { get; set; }
         public int WorkerID { get; set; }
         public Worker Worker { get; set; }

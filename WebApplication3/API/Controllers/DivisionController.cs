@@ -9,17 +9,15 @@ namespace WebApplication3.Controllers
     [Route("/api/[controller]")]
     public class DivisionController : ControllerBase
     {
-        private readonly ConnectionContext _dataBase;
         private readonly IDivisionHandler _divisioHandler;
 
-        public DivisionController(ConnectionContext dataBase, IDivisionHandler divisionRepository)
+        public DivisionController( IDivisionHandler divisionRepository)
         {
-            _dataBase = dataBase;
             _divisioHandler = divisionRepository;
         }
         
         /// <summary>
-        /// Заполняет сущность
+        /// Создает сущность
         /// </summary>
         /// <param name="reqest"></param>
         /// <returns>A newly created Division</returns>
@@ -74,9 +72,6 @@ namespace WebApplication3.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(int id)
         {
-            //_dataBase.Division.Remove(await _dataBase.Division.FindAsync(id));
-            //await _dataBase.SaveChangesAsync();
-            //return Ok(new { Message = "Deleted" });
             return Ok(await _divisioHandler.Delete(id));
         }
         /// <summary>
