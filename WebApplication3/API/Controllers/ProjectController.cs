@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApplication3.DataBase.Connection;
 using WebApplication3.Interfaces;
+using WebApplication3.Models;
 using WebApplication3.Repository;
 
 namespace WebApplication3.Controllers

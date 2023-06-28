@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApplication3.Connection;
+using WebApplication3.DataBase.Connection;
 using WebApplication3.Interfaces;
 using WebApplication3.Models;
 

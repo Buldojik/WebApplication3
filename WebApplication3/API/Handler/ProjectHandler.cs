@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using WebApplication3.DataBase.Connection;
 using WebApplication3.Interfaces;
 using WebApplication3.Models;
-using static WebApplication3.Interfaces.IQuestHandler;
 
 namespace WebApplication3.Repository
 {

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using System;
-using WebApplication3.DataBase.Models;
 using WebApplication3.Interfaces;
+using WebApplication3.Models;
 
 namespace WebApplication3.Mapping
 {

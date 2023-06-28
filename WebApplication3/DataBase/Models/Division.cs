@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication3.Models
 {
@@ -12,13 +7,48 @@ namespace WebApplication3.Models
     /// </summary>
     public class Division
     {
-        /// <summary>
-        /// И
-        /// </summary>
+        
         public int ID { get; set; }
-        [Required]
+        /// <summary>
+        /// Наименование отдела
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Ссылка на сотрудника
+        /// </summary>
+        public int WorkerID { get; set; }
+        public Worker Worker { get; set; }
+    }
+    /// <summary>
+    /// Запрос на создание сущности Division
+    /// </summary>
+    public class CreateDivisionReqest
+    {
+        /// <summary>
+        /// Наименование отдела
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Ссылка на сотрудника
+        /// </summary>
+        public int WorkerID { get; set; }
+
+    }
+    /// <summary>
+    /// Ответ сущности Division
+    /// </summary>
+    public class DivisionResponse
+    {
+        public int id { get; set; }
         public string Name { get; set; }
         public int WorkerID { get; set; }
-        public Worker Worker {get; set; }
+    }
+    /// <summary>
+    /// Запрос на обновление сущности Division
+    /// </summary>
+    public class UpdateDivisionReqest
+    {
+        public string Name { get; set; }
+        public int WorkerID { get; set; }
     }
 }

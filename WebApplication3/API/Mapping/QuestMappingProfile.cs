@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using WebApplication3.DataBase.Models;
-using WebApplication3.Interfaces;
-using static WebApplication3.Interfaces.IQuestHandler;
+using WebApplication3.Models;
 
 namespace WebApplication3.Mapping
 {
